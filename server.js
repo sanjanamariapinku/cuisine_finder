@@ -7,15 +7,24 @@ const PORT = process.env.PORT || 3000;
 
 // 2. Connect to MongoDB Atlas using your Render Environment Variable
 const mongoURI = process.env.MONGO_URI;
+// 2. Optimized Connection Flow
+const mongoURI = process.env.MONGO_URI;
 
 if (!mongoURI) {
-    console.error("ERROR: MONGO_URI environment variable is missing!");
+    console.error("❌ ERROR: MONGO_URI environment variable is missing completely in Render!");
 } else {
-    mongoose.connect(mongoURI)
-        .then(() => console.log("🚀 Successfully connected to MongoDB Atlas!"))
-        .catch(err => console.error("❌ MongoDB connection error:", err));
+    console.log("⏳ ATTEMPTING CONNECTION: Connecting to MongoDB Atlas...");
+    
+    mongoose.connect(mongoURI, {
+        serverSelectionTimeoutMS: 5000 // Force an explicit error if it can't connect within 5 seconds
+    })
+    .then(() => {
+        console.log("🚀 Successfully connected to MongoDB Atlas!");
+    })
+    .catch(err => {
+        console.error("❌ DRASITC CONNECTION FAILURE:", err.message);
+    });
 }
-
 // 3. Define the Blueprint (Schema) for your Feedback
 const feedbackSchema = new mongoose.Schema({
     name: String,
