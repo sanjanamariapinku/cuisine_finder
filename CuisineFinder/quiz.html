@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style4.css">
+        <link rel="icon" type="image/png" href="images/icon.png">
+        <title>
+            CuisineFinder
+        </title>
+    </head>
+    <body>
+        <header>
+            <section class="title">
+            <div class="title">
+            <img src="images/title.png" alt="Logo or Icon">
+            </div>
+            </section>
+            <section class="navbar">
+            <nav>
+            <a href="home.html">HOME</a>
+            <a href="about.html">ABOUT US</a>
+            <a href="explore.html">EXPLORE</a>
+            <a href="reviews.html">REVIEW</a>
+            </section>
+            <section id="slogan">
+                <marquee direction="right">Welcome to CuisineFinder! Connecting Food Lovers with Their Favorite Flavors.</marquee>
+            </section>
+        </header>
+        <main>
+            <div class="box">
+                <h1 style="text-align: center;">CUISINE QUIZ</h1>
+                <div class="card" id="card2">
+                    
+    <h2 id="question">Loading...</h2>
+    <div id="buttons"></div>
+  </div>
+
+  <script>
+    let step = 1;
+    let indian = 0, italian = 0, chinese = 0, japanese = 0;
+
+    const questionText = document.getElementById("question");
+    const buttonBox = document.getElementById("buttons");
+
+    function showQuestion() {
+      buttonBox.innerHTML = ""; 
+
+      if (step === 1) {
+        questionText.innerText = "Q1: What flavor profile do you want?";
+        addChoice("🌶️ Bold & Spicy", () => { indian++; next(); });
+        addChoice("🧄 Savory & Garlicky", () => { italian++; next(); });
+        addChoice("🔥 Wok-Fried & Umami", () => { chinese++; next(); });
+        addChoice("🥢 Subtle & Delicate", () => { japanese++; next(); });
+
+      } else if (step === 2) {
+        questionText.innerText = "Q2: Pick your favorite base element:";
+        addChoice("🍛 Rice or flatbreads", () => { indian++; next(); });
+        addChoice("🍝 Pasta or bread crusts", () => { italian++; next(); });
+        addChoice("🍜 Stir-fried or soup noodles", () => { chinese++; next(); });
+        addChoice("🍣 Raw fish or fresh seaweed", () => { japanese++; next(); });
+
+      } else if (step === 3) {
+        questionText.innerText = "Q3: What kind of food texture sounds best?";
+        addChoice("🥘 Thick, slow-simmered rich sauces", () => { indian++; next(); });
+        addChoice("🧀 Cheesy, baked, and comforting", () => { italian++; next(); });
+        addChoice("🔥 Fast, wok-tossed hot dishes", () => { chinese++; next(); });
+        addChoice("🍃 Raw, clean, artful presentation", () => { japanese++; next(); });
+      }
+    }
+
+    function addChoice(text, clickFunction) {
+      const btn = document.createElement("button");
+      btn.innerText = text;
+      btn.onclick = clickFunction;
+      buttonBox.appendChild(btn);
+    }
+
+    function next() {
+      step++;
+      if (step <= 3) {
+        showQuestion();
+      } else {
+        calculateWinner();
+      }
+    }
+
+    // Simplest end screen calculation logic
+    function calculateWinner() {
+      questionText.innerText = "Your Match:";
+      
+      let winner = "🍛 Indian Cuisine!";
+      let max = indian;
+
+      if (italian > max) { max = italian; winner = "🍕 Italian Cuisine!"; }
+      if (chinese > max) { max = chinese; winner = "🥢 Chinese Cuisine!"; }
+      if (japanese > max) { max = japanese; winner = "🍣 Japanese Cuisine!"; }
+
+      buttonBox.innerHTML = `<h3>${winner}</h3>`;
+    }
+
+    showQuestion();
+  </script>
+            </div>
+        </main>
+        <footer>
+            <br><br>
+            <p>For more info:<br>
+                Email: <a href="mailto:cuisinefinder@gmail.com">cuisinefinder@gmail.com</a><br>
+                Copyrights Reserved.
+            </p><br>
+            <br>
+            <br>
+        </footer>
+    </body>
+    </html>
